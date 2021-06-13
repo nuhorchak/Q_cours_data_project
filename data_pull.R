@@ -20,3 +20,14 @@ plot_port_city <- function(data, city = 'Brownsville', ...){
     theme(axis.text.x = element_text(angle = 90))
 }
 
+# forecasting
+
+
+brownsville_pedestrians <- data_pull %>% 
+  filter(port_name == 'Brownsville') %>% 
+  filter(measure == 'Pedestrians') %>% 
+  filter(date <= '2019-12-01') %>% 
+  select(date, value) %>% ts(.)
+
+# fit <- HoltWinters(brownsville_pedestrians, beta=FALSE, gamma=FALSE)
+# plot(fit)
