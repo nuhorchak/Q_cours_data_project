@@ -13,7 +13,7 @@ data_pull %>%
   theme(axis.text.x = element_text(angle = 90))
 
 
-plot_port_city <- function(data, city = 'Brownsville', travel_method = , ...){
+plot_port_city <- function(data, city = 'Brownsville', travel_method = 'Truck', ...){
   data %>% 
     filter(port_name == city) %>%
     filter(measure==travel_method) %>% 
