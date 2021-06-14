@@ -3,10 +3,10 @@ library(lubridate)
 library(forecast)
 library(RSocrata)
 
-data_pull <- read.socrata("https://data.bts.gov/resource/keg4-3bc2.json")
-data_pull <- data_pull %>% mutate(., value = as.numeric(value))
-data_pull <- data_pull %>% mutate(., measure = as.factor(measure))
-
+# data_pull <- read.socrata("https://data.bts.gov/resource/keg4-3bc2.json")
+# data_pull <- data_pull %>% mutate(., value = as.numeric(value))
+# data_pull <- data_pull %>% mutate(., measure = as.factor(measure))
+load('border_crossings.rda')
 
 data_pull %>% 
   filter(port_name == 'Brownsville') %>%
@@ -26,9 +26,8 @@ for (name in unique(data_pull$port_name)) {
   
   ggsave(filename = paste0("plot_", name, ".png"),
          plot_port_city(data_pull, city = name),
-         width = 1024,
-         height = 768,
-         limitsize = FALSE)
+         width = 11,
+         height = 7)
 }
 
 # forecasting
