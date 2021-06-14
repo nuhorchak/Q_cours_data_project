@@ -27,7 +27,11 @@ brownsville_pedestrians <- data_pull %>%
   filter(port_name == 'Brownsville') %>% 
   filter(measure == 'Pedestrians') %>% 
   filter(date <= '2019-12-01') %>% 
-  select(date, value) %>% ts(.)
+  select(value) %>% ts(., start= c(1996,1), end = c(2019,12), frequency = 12)
 
-# fit <- HoltWinters(brownsville_pedestrians, beta=FALSE, gamma=FALSE)
-# plot(fit)
+fit_HW <- HoltWinters(brownsville_pedestrians, beta=FALSE, gamma=FALSE)
+# fit_auto_ARIMA <- auto.arima(brownsville_pedestrians)
+# fit_arima <- Arima(brownsville_pedestrians, order =c(2,1,1), seasonal = c(0,0,2))
+plot(fit_HW)
+forecast_HW <- forecast(fit_HW, 3)
+plot(forecast_HW)
