@@ -31,11 +31,11 @@ load('border_crossings.rda')
 
 <br>
 
-1.Purpose: To provide insihts gathered from the border crossing/entry dataset.
+1.Purpose: To provide insights gathered from the border crossing/entry dataset.
 
 <br>
 
-2.Backgorund: The Border Crossing/Entry dataset contains `r nrow(data_pull)` records, pertaining to `r ncol(data_pull)` distinct measures (variables). The dataset specifically measures border crossing at the U.S.-Canada and the U.S.-Mexico border, at the port level.  Data area available for the following crossing methods: `r unique(data_pull$measure)`. Data is available from `r format(min(data_pull$date), format = '%Y')`, for `r data_pull %>% filter(., date <= '1997-01-01') %>% filter(!duplicated(port_name)) %>% select(port_name) %>% nrow()`  of `r data_pull %>%filter(!duplicated(port_name)) %>% select(port_name) %>% nrow()` port cities.
+2.Backgorund: The Border Crossing/Entry dataset contains `r format(nrow(data_pull), big.mark=",")` records, pertaining to `r ncol(data_pull)` distinct measures (variables). The dataset specifically measures border crossing at the U.S.-Canada and the U.S.-Mexico border, at the port level.  Data area available for the following crossing methods: `r unique(data_pull$measure)`. Data is available from `r format(min(data_pull$date), format = '%Y')`, for `r data_pull %>% filter(., date <= '1997-01-01') %>% filter(!duplicated(port_name)) %>% select(port_name) %>% nrow()`  of `r data_pull %$% unique(port_name) %>% length()` port cities, multiple additional dates for the remaining ports.
 
 <br>
 
