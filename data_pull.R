@@ -1,5 +1,9 @@
 library(tidyverse)
-library(lubridate)
+library(lubdata_pull %>% 
+  filter(port_name == 'Calexico') %>%
+  filter(date <= '2004-01-01' & date >= '2003-01-01') %>% 
+  ggplot(., aes(date, value, color=measure, linetype=measure)) + geom_line() +
+  theme(axis.text.x = element_text(angle = 90))ridate)
 library(forecast)
 library(RSocrata)
 
@@ -8,11 +12,7 @@ library(RSocrata)
 # data_pull <- data_pull %>% mutate(., measure = as.factor(measure))
 load('border_crossings.rda')
 
-data_pull %>% 
-  filter(port_name == 'Calexico') %>%
-  filter(date <= '2004-01-01' & date >= '2003-01-01') %>% 
-  ggplot(., aes(date, value, color=measure, linetype=measure)) + geom_line() +
-  theme(axis.text.x = element_text(angle = 90))
+
 
 
 plot_port_city <- function(data, city = 'Brownsville', ...){

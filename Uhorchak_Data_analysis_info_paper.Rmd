@@ -5,7 +5,8 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                       fig.align = "center", fig.width = 8)
 ```
 
 ```{r}
@@ -35,17 +36,19 @@ load('border_crossings.rda')
 
 <br>
 
-2.Backgorund: The Border Crossing/Entry dataset contains `r format(nrow(data_pull), big.mark=",")` records, pertaining to `r ncol(data_pull)` distinct measures (variables). The dataset specifically measures border crossing at the U.S.-Canada and the U.S.-Mexico border, at the port level[^1].  Data area available for the following crossing methods: `r unique(data_pull$measure)`[^2]d. Data is available from `r format(min(data_pull$date), format = '%Y')`, for `r data_pull %>% filter(., date <= '1997-01-01') %>% filter(!duplicated(port_name)) %>% select(port_name) %>% nrow()`  of `r data_pull %$% unique(port_name) %>% length()` port cities, multiple additional dates for the remaining ports.
+2.Backgorund: The Border Crossing/Entry dataset contains `r format(nrow(data_pull), big.mark=",")` records, pertaining to `r ncol(data_pull)` distinct measures (variables). The dataset specifically measures border crossing at the U.S.-Canada and the U.S.-Mexico border, at the port level[^1].  Data are available for the following crossing methods: `r unique(data_pull$measure)`[^2]. Data are available from `r format(min(data_pull$date), format = '%Y')`, for `r data_pull %>% filter(., date <= '1997-01-01') %>% filter(!duplicated(port_name)) %>% select(port_name) %>% nrow()`  of `r data_pull %$% unique(port_name) %>% length()` port cities, with multiple additional dates for the remaining ports.
 
 <br>
 
 3.Assumptions: The following assumptions are made with regard to the border crossing dataset:
 
- - Border crossings are ligitately documented individuals, and do not represent smuggling
- - All crossings are reported for the port city on record, and not surrounding areas
- - Each crossing represents an individual or vehicle, and may be duplicated at another time in the dataset
+ - Border crossings are documented individuals, and do not represent smuggling.
+ - All crossings are reported for the port city on record, and not surrounding areas.
+ - Each crossing represents an individual or vehicle, but may be duplicated at another time in the dataset (can cross multiple times in a period).
 
-4. Discussion: periodicity of the port cities; pedestrian v port traffic;
+<br> 
+
+4.Discussion: periodicity of the port cities; pedestrian v port traffic;
 
 <br>
 
@@ -63,9 +66,36 @@ load('border_crossings.rda')
 
 <br>
 
-5. Findings:  This analysis does something…
+5.Findings:  This analysis does something…
 
 <br>
+
+\newpage
+
+### Appendix 1 - Figures
+
+<br>
+
+```{r Piegan, fig.cap="Figure A - Piegan, MT"}
+data_pull %>% 
+  filter(port_name == 'Piegan') %>%
+  ggplot(., aes(date, value, color=measure, linetype=measure)) + geom_line() +
+  theme(axis.text.x = element_text(angle = 90)) +
+  ggtitle("Figure A - Piegan, MT Port Entries") +
+  ylab("Total Entries") + xlab("Date")
+```
+
+<br> 
+
+```{r Skagway, fig.cap="Figure B - Skagway, AK"}
+data_pull %>% 
+  filter(port_name == 'Skagway') %>%
+  ggplot(., aes(date, value, color=measure, linetype=measure)) + geom_line() +
+  theme(axis.text.x = element_text(angle = 90)) +
+  ggtitle("Figure B - Skagway, AK Port Entries") +
+  ylab("Total Entries") + xlab("Date")
+```
+
 
 [^1]: Border Crossing/Entry Data. Accessed on 11Jun21. https://www.bts.gov/browse-statistical-products-and-data/border-crossing-data/border-crossingentry-data
 [^2]: Ibid.
