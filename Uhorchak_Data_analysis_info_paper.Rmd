@@ -35,26 +35,37 @@ load('border_crossings.rda')
 
 <br>
 
-2.Backgorund: The Border Crossing/Entry dataset contains `r format(nrow(data_pull), big.mark=",")` records, pertaining to `r ncol(data_pull)` distinct measures (variables). The dataset specifically measures border crossing at the U.S.-Canada and the U.S.-Mexico border, at the port level.  Data area available for the following crossing methods: `r unique(data_pull$measure)`. Data is available from `r format(min(data_pull$date), format = '%Y')`, for `r data_pull %>% filter(., date <= '1997-01-01') %>% filter(!duplicated(port_name)) %>% select(port_name) %>% nrow()`  of `r data_pull %$% unique(port_name) %>% length()` port cities, multiple additional dates for the remaining ports.
+2.Backgorund: The Border Crossing/Entry dataset contains `r format(nrow(data_pull), big.mark=",")` records, pertaining to `r ncol(data_pull)` distinct measures (variables). The dataset specifically measures border crossing at the U.S.-Canada and the U.S.-Mexico border, at the port level[^1].  Data area available for the following crossing methods: `r unique(data_pull$measure)`[^2]d. Data is available from `r format(min(data_pull$date), format = '%Y')`, for `r data_pull %>% filter(., date <= '1997-01-01') %>% filter(!duplicated(port_name)) %>% select(port_name) %>% nrow()`  of `r data_pull %$% unique(port_name) %>% length()` port cities, multiple additional dates for the remaining ports.
 
 <br>
 
-3.  Discussion: 
+3.Assumptions: The following assumptions are made with regard to the border crossing dataset:
+
+ - Border crossings are ligitately documented individuals, and do not represent smuggling
+ - All crossings are reported for the port city on record, and not surrounding areas
+ - Each crossing represents an individual or vehicle, and may be duplicated at another time in the dataset
+
+4. Discussion: periodicity of the port cities; pedestrian v port traffic;
 
 <br>
 
-  a. First
+  a. First: Every border crossing city experiences periodicity of some sort, especially those where personal passener vehicles and pedestrian traffic is predominant. This phenomenon is evident in Piegan, MT (Figure A), where both personal vehicles and personal passenger vehicles are the predominant method of transportation, and significant spikes occur each year.  Similarly, we see that a similar trend is present for Skagway, AK, with buss passengers as the predominant mode of transportation (Figure B).
 
 <br>
 
-  b. Second
+  b. Second: There exists a significantly larger traffic footprint at the U.S.-Mexico border, than the U.S.-Canada border. Here is where I talk Andra's pivot data...
 
 <br>
 
-  c. Third
+  c. Third: Anomolies exists within the dataset that warraint further examination, beyond this analysis. Figure X.
+  
+  d. Fourth: Forecasts for any given port may produce inaccurate results, given the significant decrease in port traffic at the beginin of 2020, as shown in Figure X.
 
 <br>
 
-4.  Findings:  This analysis does something…
+5. Findings:  This analysis does something…
 
 <br>
+
+[^1]: Border Crossing/Entry Data. Accessed on 11Jun21. https://www.bts.gov/browse-statistical-products-and-data/border-crossing-data/border-crossingentry-data
+[^2]: Ibid.
