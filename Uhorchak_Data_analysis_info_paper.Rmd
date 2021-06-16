@@ -48,21 +48,21 @@ load('border_crossings.rda')
 
 <br> 
 
-4.Discussion: The border crossing dataset presents various interesting facets, to include periodicity of the port cities, pedestrian v port traffic;
+4.Discussion: The border crossing dataset presents various interesting facets, to include periodicity of the port cities, differences between northern and southern borders, anomolies, and future forecasts.
 
 <br>
 
-  a. First: Every border crossing city experiences periodicity of some sort, especially those where personal passener vehicles and pedestrian traffic is predominant. This phenomenon is evident in Piegan, MT (Figure A), where both personal vehicles and personal passenger vehicles are the predominant method of transportation, and significant spikes occur each year.  Similarly, we see that a similar trend is present for Skagway, AK, with buss passengers as the predominant mode of transportation (Figure B).
+  a. Every border crossing city experiences periodicity of some sort, especially those where personal passener vehicles and pedestrian traffic is predominant. This phenomenon is evident in Piegan, MT (Figure A), where both personal vehicles and personal passenger vehicles are the predominant method of transportation, and significant spikes occur each year.  Similarly, we see that a similar trend is present for Skagway, AK, with buss passengers as the predominant mode of transportation (Figure B).  
 
 <br>
 
-  b. Second: There exists a significantly larger traffic footprint at the U.S.-Mexico border, than the U.S.-Canada border. Here is where I talk Andra's pivot data...
+  b. There exists a significantly larger traffic footprint at the U.S.-Mexico border, than the U.S.-Canada border. Although inference is not made with regards to reasons, in the largest metric, Personal Passenger Vehicles, the largest yearly value for the US-Mexico border is nearly doube that of the US-Canada border. Within the US-Mexico subset, even greater variation exists between port cities, where Personal Passenger Vehicles range from zero(not allowed) to in excess of 23 million per year.
 
 <br>
 
-  c. Third: Anomolies exists within the dataset that warraint further examination, beyond this analysis. Figure X.
+  c. Anomolies exists within the dataset that warraint further examination, beyond this analysis. In the port city of Van Buren, Maine (Figure C), the metric for Personal Passenger Vehicles decreases to zero, causing large downward spikes in the time series graph. Similarly, in Point Roberts, Washington (Figure D) there is a signficant spike in Personal Passenger Vehicles, well beyond the normal seasonl variation. Finally, for all port cities, significant declines in all metrics occur around 2020, which can be attributed to COVID restrictions, but is still anomalous given the entire time series presented.
   
-  d. Fourth: Forecasts for any given port may produce inaccurate results, given the significant decrease in port traffic at the beginin of 2020, as shown in Figure X.
+  d. Forecasts for any given port may produce inaccurate results, given the significant decrease in port traffic at the beginin of 2020, as shown in Figure X.
 
 <br>
 
@@ -96,6 +96,14 @@ data_pull %>%
   ylab("Total Entries") + xlab("Date")
 ```
 
+```{r Van Buren, fig.cap="Figure C - Van Buren, ME"}
+data_pull %>% 
+  filter(port_name == 'Van Buren') %>%
+  ggplot(., aes(date, value, color=measure, linetype=measure)) + geom_line() +
+  theme(axis.text.x = element_text(angle = 90)) +
+  ggtitle("Figure C - Van Buren, ME Port Entries") +
+  ylab("Total Entries") + xlab("Date")
+```
 
 [^1]: Border Crossing/Entry Data. Accessed on 11Jun21. https://www.bts.gov/browse-statistical-products-and-data/border-crossing-data/border-crossingentry-data
 [^2]: Ibid.

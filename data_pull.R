@@ -1,9 +1,5 @@
 library(tidyverse)
-library(lubdata_pull %>% 
-  filter(port_name == 'Calexico') %>%
-  filter(date <= '2004-01-01' & date >= '2003-01-01') %>% 
-  ggplot(., aes(date, value, color=measure, linetype=measure)) + geom_line() +
-  theme(axis.text.x = element_text(angle = 90))ridate)
+library(lubridate)
 library(forecast)
 library(RSocrata)
 
@@ -12,8 +8,14 @@ library(RSocrata)
 # data_pull <- data_pull %>% mutate(., measure = as.factor(measure))
 load('border_crossings.rda')
 
+data_pull <- data_pull %>% mutate(year = format(date, format="%Y"))
 
 
+data_pull %>% 
+  filter(port_name == 'Calexico') %>%
+  filter(date <= '2004-01-01' & date >= '2003-01-01') %>% 
+  ggplot(., aes(date, value, color=measure, linetype=measure)) + geom_line() +
+  theme(axis.text.x = element_text(angle = 90)))
 
 plot_port_city <- function(data, city = 'Brownsville', ...){
   data %>% 
@@ -52,8 +54,18 @@ forecast_HW <- forecast(fit_HW, 3)
 plot(forecast_HW)
 
 
+data_pull %>% 
+  filter(measure == 'Personal Vehicle Passengers') %>% 
+  filter(date >= '2010-01-01') %>% 
+  filter(border == 'US-Canada Border') %>% 
+  ggplot(., aes(year, value, color=port_name)) + geom_point() +
+  facet_wrap(~ year) +
+  theme(axis.text.x = element_text(angle = 90))
 
-
+data_pull %>% 
+  filter(measure == 'Personal Vehicle Passengers') %>% 
+  filter(date >= '2010-01-01') %>% 
+  filter(border == 'US-Canada Border') %>% select(value) %>% max()
 
 
 
