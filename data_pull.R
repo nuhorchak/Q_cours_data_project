@@ -9,7 +9,8 @@ library(RSocrata)
 load('border_crossings.rda')
 
 data_pull %>% 
-  filter(port_name == 'Brownsville') %>%
+  filter(port_name == 'Calexico') %>%
+  filter(date <= '2004-01-01' & date >= '2003-01-01') %>% 
   ggplot(., aes(date, value, color=measure, linetype=measure)) + geom_line() +
   theme(axis.text.x = element_text(angle = 90))
 
@@ -32,16 +33,27 @@ for (name in unique(data_pull$port_name)) {
 
 # forecasting
 
+data_pull %>% 
+  filter(port_name == 'Brownsville') %>% 
+  filter(measure == 'Pedestrians') %>% 
+  filter(date >= '2020-06-01') %>% 
+  ggplot(., aes(date, value, color=measure, linetype=measure)) + geom_line() +
+  theme(axis.text.x = element_text(angle = 90))
 
 brownsville_pedestrians <- data_pull %>% 
   filter(port_name == 'Brownsville') %>% 
   filter(measure == 'Pedestrians') %>% 
-  filter(date <= '2019-12-01') %>% 
-  select(value) %>% ts(., start= c(1996,1), end = c(2020,12), frequency = 12)
+  filter(date <= '2020-06-01') %>% 
+  select(value) %>% ts(., start= c(2020,6), end = c(2021,3), frequency = 12)
 
-fit_HW <- HoltWinters((brownsville_pedestrians_diff), beta=FALSE, gamma=FALSE)
-# fit_auto_ARIMA <- auto.arima(brownsville_pedestrians)
-# fit_arima <- Arima(brownsville_pedestrians_diff, order =c(2,1,0))
+fit_HW <- HoltWinters((brownsville_pedestrians), beta=FALSE, gamma=FALSE)
 plot(fit_HW)
 forecast_HW <- forecast(fit_HW, 3)
 plot(forecast_HW)
+
+
+
+
+
+
+
