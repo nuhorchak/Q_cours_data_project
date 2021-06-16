@@ -48,7 +48,7 @@ load('border_crossings.rda')
 
 <br> 
 
-4.Discussion: periodicity of the port cities; pedestrian v port traffic;
+4.Discussion: The border crossing dataset presents various interesting facets, to include periodicity of the port cities, pedestrian v port traffic;
 
 <br>
 
