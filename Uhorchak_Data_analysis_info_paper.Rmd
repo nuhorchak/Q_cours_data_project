@@ -45,7 +45,6 @@ load('border_crossings.rda')
 
 3.Assumptions: The following assumptions are made with regard to the border crossing dataset:
 
- - Border crossings are documented individuals, and do not represent smuggling.
  - All crossings are reported for the port city on record, and not surrounding areas.
  - Each crossing represents an individual or vehicle, but may be duplicated at another time in the dataset (can cross multiple times in a period).
 
@@ -63,7 +62,7 @@ load('border_crossings.rda')
 
 <br>
 
-  c. Multiple anomolies exist within the dataset that warraint further examination. In the port city of Van Buren, Maine (Figure C), the metric for Personal Vehicle Passengers decreases to zero, causing large downward spikes in the time series graph. Similarly, in Point Roberts, Washington (Figure D) there is a signficant spike in Personal Vehicle Passengers, well beyond the normal seasonl variation. Finally, for all port cities, significant declines in all metrics occur around 2020, which can be attributed to COVID restrictions, but is still anomalous given the entire time series presented.
+  c. Multiple anomolies exist within the dataset that warrant further examination, outside of the current research. In the port city of Van Buren, Maine (Figure C), the metric for Personal Vehicle Passengers decreases to zero, causing large downward spikes in the time series graph. Similarly, in Point Roberts, Washington (Figure D) there is a signficant spike in Personal Vehicle Passengers, well beyond the normal seasonl variation. Finally, for all port cities, significant declines in all metrics occur around 2020, which can be attributed to COVID restrictions, but is still anomalous given the entire time series presented.
  
 <br>
  
