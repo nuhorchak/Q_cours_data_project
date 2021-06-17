@@ -128,23 +128,23 @@ and border security.
 
 <br>
 
-MAJ Nicholas Uhorchak / 254-317-9339 Official: LTC Spivey
+MAJ Nicholas Uhorchak / XXX-XXX-XXXX Official: LTC XXXX
 
 ### Appendix 1 - Figures
 
 <br>
 
-<img src="readme_files/figure-markdown_strict/Piegan-1.png" style="display: block; margin: auto;" />
+<img src="_bookdown_files/readme_files/figure-markdown_strict/Piegan-1.png" style="display: block; margin: auto;" />
 
 <br>
 
-<img src="readme_files/figure-markdown_strict/Skagway-1.png" style="display: block; margin: auto;" />
+<img src="_bookdown_files/readme_files/figure-markdown_strict/Skagway-1.png" style="display: block; margin: auto;" />
 
-<img src="readme_files/figure-markdown_strict/Van Buren-1.png" style="display: block; margin: auto;" />
+<img src="_bookdown_files/readme_files/figure-markdown_strict/Van Buren-1.png" style="display: block; margin: auto;" />
 
 <img src="readme_files/figure-markdown_strict/Point Roberts-1.png" style="display: block; margin: auto;" />
 
-<img src="readme_files/figure-markdown_strict/ARIMA-1.png" style="display: block; margin: auto;" />
+<img src="_bookdown_files/readme_files/figure-markdown_strict/ARIMA-1.png" style="display: block; margin: auto;" />
 
 ![Figure F - US-Mexico Border Stats](./plots/Mexico_stats.png)
 
