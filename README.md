@@ -142,7 +142,7 @@ MAJ Nicholas Uhorchak / XXX-XXX-XXXX Official: LTC XXXX
 
 <img src="_bookdown_files/readme_files/figure-markdown_strict/Van Buren-1.png" style="display: block; margin: auto;" />
 
-<img src="readme_files/figure-markdown_strict/Point Roberts-1.png" style="display: block; margin: auto;" />
+<img src="_bookdown_files/readme_files/figure-markdown_strict/Point Roberts-1.png" style="display: block; margin: auto;" />
 
 <img src="_bookdown_files/readme_files/figure-markdown_strict/ARIMA-1.png" style="display: block; margin: auto;" />
 
