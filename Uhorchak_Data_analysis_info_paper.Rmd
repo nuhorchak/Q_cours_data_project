@@ -5,15 +5,18 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, 
                        fig.align = "center", fig.width = 8)
 ```
 
 ```{r}
+library(magrittr)
 library(tidyverse)
 library(lubridate)
 library(forecast)
 library(RSocrata)
+
+library(scales)
 load('border_crossings.rda')
 ```
 
@@ -36,7 +39,7 @@ load('border_crossings.rda')
 
 <br>
 
-2.Backgorund: The Border Crossing/Entry dataset contains `r format(nrow(data_pull), big.mark=",")` records, pertaining to `r ncol(data_pull)` distinct measures (variables). The dataset specifically measures border crossing at the U.S.-Canada and the U.S.-Mexico border, at the port level[^1].  Data are available for the following crossing methods: `r unique(data_pull$measure)`[^2]. Data are available from `r format(min(data_pull$date), format = '%Y')`, for `r data_pull %>% filter(., date <= '1997-01-01') %>% filter(!duplicated(port_name)) %>% select(port_name) %>% nrow()`  of `r data_pull %$% unique(port_name) %>% length()` port cities, with multiple additional dates for the remaining ports.
+2.Background: The Border Crossing/Entry dataset contains `r format(nrow(data_pull), big.mark=",")` records, pertaining to `r ncol(data_pull)` distinct measures (variables). The dataset specifically measures border crossing at the U.S.-Canada and the U.S.-Mexico border, at the port level[^1].  Data are available for the following crossing methods: `r unique(data_pull$measure)`[^2]. Data are available from `r format(min(data_pull$date), format = '%Y')`, for `r data_pull %>% filter(., date <= '1997-01-01') %>% filter(!duplicated(port_name)) %>% select(port_name) %>% nrow()`  of `r data_pull %$% unique(port_name) %>% length()` port cities, with multiple additional dates for the remaining ports.
 
 <br>
 
@@ -52,21 +55,23 @@ load('border_crossings.rda')
 
 <br>
 
-  a. Every border crossing city experiences periodicity of some sort, especially those where personal passener vehicles and pedestrian traffic is predominant. This phenomenon is evident in Piegan, MT (Figure A), where both personal vehicles and personal passenger vehicles are the predominant method of transportation, and significant spikes occur each year.  Similarly, we see that a similar trend is present for Skagway, AK, with buss passengers as the predominant mode of transportation (Figure B).  
+  a. Every border crossing city experiences periodicity of some sort, especially those where Personal Vehicle Passengers and pedestrian traffic is predominant. This phenomenon is evident in Piegan, MT (Figure A), where both personal vehicles and Personal Vehicle Passengers are the predominant method of transportation, and significant spikes occur each year.  Similarly, we see that a similar trend is present for Skagway, AK, with buss passengers as the predominant mode of transportation (Figure B).  
 
 <br>
 
-  b. There exists a significantly larger traffic footprint at the U.S.-Mexico border, than the U.S.-Canada border. Although inference is not made with regards to reasons, in the largest metric, Personal Passenger Vehicles, the largest yearly value for the US-Mexico border is nearly doube that of the US-Canada border. Within the US-Mexico subset, even greater variation exists between port cities, where Personal Passenger Vehicles range from zero(not allowed) to in excess of 23 million per year.
+  b. There exists a significantly larger traffic footprint at the U.S.-Mexico border, than the U.S.-Canada border. Although inference is not made with regards to reasons, in the largest metric, Personal Vehicle Passengers, the largest yearly value for the US-Mexico border is nearly doube that of the US-Canada border. Within the US-Mexico subset, even greater variation exists between port cities, where Personal Vehicle Passengers range from zero(not allowed) to in excess of 23 million per year.
 
 <br>
 
-  c. Anomolies exists within the dataset that warraint further examination, beyond this analysis. In the port city of Van Buren, Maine (Figure C), the metric for Personal Passenger Vehicles decreases to zero, causing large downward spikes in the time series graph. Similarly, in Point Roberts, Washington (Figure D) there is a signficant spike in Personal Passenger Vehicles, well beyond the normal seasonl variation. Finally, for all port cities, significant declines in all metrics occur around 2020, which can be attributed to COVID restrictions, but is still anomalous given the entire time series presented.
-  
-  d. Forecasts for any given port may produce inaccurate results, given the significant decrease in port traffic at the beginin of 2020, as shown in Figure X.
+  c. Multiple anomolies exist within the dataset that warraint further examination. In the port city of Van Buren, Maine (Figure C), the metric for Personal Vehicle Passengers decreases to zero, causing large downward spikes in the time series graph. Similarly, in Point Roberts, Washington (Figure D) there is a signficant spike in Personal Vehicle Passengers, well beyond the normal seasonl variation. Finally, for all port cities, significant declines in all metrics occur around 2020, which can be attributed to COVID restrictions, but is still anomalous given the entire time series presented.
+ 
+<br>
+ 
+  d. Forecasts for any given port may produce inaccurate results, given the significant decrease in port traffic at the beginin of 2020, as shown in Figures A through D. Using Personal Vehicle Passenger data for the port city of Del Rio, TX, the expected forecast would continue trends seen in previous months (Figure E).  This however, is not representative of the data, and in Figure E, there is a clear difference between the forecast and true data.  This makes future forecasting for any port difficult, even with robust forecast methods such as the ARIMA(0,1,1) model.
 
 <br>
 
-5.Findings:  This analysis does something…
+5.Findings:  From the data, it is evident there are differences between port cities and both borders. If the necessity arose for US Army support to Homeland Security at a given port, greater impact would likely come from deployment to the southern border.  Similarly, multiple ports present greater overall volume of traffic than others, and would therefore need additional support.  Along with site selection, the time of year must be taken into account, given the periodicity of port traffic.  Finally, though numbers are rebounding, caution should be taken to forecast future port traffic based on data collected begining in 2020, due to the COVID epidemic.
 
 <br>
 
@@ -76,7 +81,7 @@ load('border_crossings.rda')
 
 <br>
 
-```{r Piegan, fig.cap="Figure A - Piegan, MT"}
+```{r Piegan}
 data_pull %>% 
   filter(port_name == 'Piegan') %>%
   ggplot(., aes(date, value, color=measure, linetype=measure)) + geom_line() +
@@ -87,7 +92,7 @@ data_pull %>%
 
 <br> 
 
-```{r Skagway, fig.cap="Figure B - Skagway, AK"}
+```{r Skagway}
 data_pull %>% 
   filter(port_name == 'Skagway') %>%
   ggplot(., aes(date, value, color=measure, linetype=measure)) + geom_line() +
@@ -96,7 +101,7 @@ data_pull %>%
   ylab("Total Entries") + xlab("Date")
 ```
 
-```{r Van Buren, fig.cap="Figure C - Van Buren, ME"}
+```{r Van Buren}
 data_pull %>% 
   filter(port_name == 'Van Buren') %>%
   ggplot(., aes(date, value, color=measure, linetype=measure)) + geom_line() +
@@ -104,6 +109,49 @@ data_pull %>%
   ggtitle("Figure C - Van Buren, ME Port Entries") +
   ylab("Total Entries") + xlab("Date")
 ```
+
+```{r Point Roberts}
+data_pull %>% 
+  filter(port_name == 'Point Roberts') %>%
+  ggplot(., aes(date, value, color=measure, linetype=measure)) + geom_line() +
+  theme(axis.text.x = element_text(angle = 90)) +
+  ggtitle("Figure D - Point Roberts, WA Port Entries") +
+  ylab("Total Entries") + xlab("Date")
+```
+
+```{r ARIMA}
+del_rio_PPV <- data_pull %>% 
+  filter(port_name == 'Del Rio') %>% 
+  filter(measure == 'Personal Vehicle Passengers') %>% 
+  arrange(date) %>% 
+  select(value) %>% ts(., start= c(1996,1), end = c(2020,1), frequency = 12)
+
+fit_arima <- auto.arima(del_rio_PPV)
+forecast_arima <- forecast(fit_arima, 14)
+
+del_rio_data_PPV <- data_pull %>% 
+  filter(port_name == 'Del Rio') %>% 
+  filter(measure == 'Personal Vehicle Passengers') %>% 
+  select(date, value) %>% arrange(date)
+
+forecast_del_rio <- del_rio_data_PPV %>% 
+  filter(date >= '2020-02-01') %>% 
+  select(-value) %>% arrange(date) %>% 
+  cbind(., forecast_arima$mean)
+colnames(forecast_del_rio)[2] <- "forecast"
+
+
+ggplot() + geom_line(data = del_rio_data_PPV, 
+                     aes(date, value, color =  'blue')) +
+  geom_line(data = forecast_del_rio, aes(date, forecast, color = 'red')) +
+  scale_colour_hue('Values', labels=c('Actual', 'Forecast')) +
+  ggtitle("Figure E - Del Rio, TX Personal Vehicle Passengers") +
+  xlab('Date') + ylab('Monthly Total') +
+  scale_y_continuous(
+    labels = scales::number_format(accuracy = 1,
+                                   decimal.mark = ','))
+```
+
 
 [^1]: Border Crossing/Entry Data. Accessed on 11Jun21. https://www.bts.gov/browse-statistical-products-and-data/border-crossing-data/border-crossingentry-data
 [^2]: Ibid.
